@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Operations DApp</title>
+</head>
+<body>
+    <h1>Math Operations DApp</h1>
+
+    <input type="number" id="num1" placeholder="Enter first number" />
+    <input type="number" id="num2" placeholder="Enter second number" />
+    
+    <button onclick="addNumbers()">Add</button>
+    <button onclick="subtractNumbers()">Subtract</button>
+    <button onclick="multiplyNumbers()">Multiply</button>
+    <button onclick="divideNumbers()">Divide</button>
+    
+    <h2>Result: <span id="result">0</span></h2>
+
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+    <script>
+        const contractAddress = "0x88F767c0f9561021E1A347aDD60053721e16Cde9";
+        const contractABI = [
+            {
+                "inputs": [
+                    { "internalType": "uint256", "name": "_num1", "type": "uint256" },
+                    { "internalType": "uint256", "name": "_num2", "type": "uint256" }
+                ],
+                "name": "add",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    { "internalType": "uint256", "name": "_num1", "type": "uint256" },
+                    { "internalType": "uint256", "name": "_num2", "type": "uint256" }
+                ],
+                "name": "subtract",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    { "internalType": "uint256", "name": "_num1", "type": "uint256" },
+                    { "internalType": "uint256", "name": "_num2", "type": "uint256" }
+                ],
+                "name": "multiply",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    { "internalType": "uint256", "name": "_num1", "type": "uint256" },
+                    { "internalType": "uint256", "name": "_num2", "type": "uint256" }
+                ],
+                "name": "divide",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "getResult",
+                "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+                "stateMutability": "view",
+                "type": "function"
+            }
+        ];
+
+        const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
+        const contract = new web3.eth.Contract(contractABI, contractAddress);
+
+        async function getAccounts() {
+            return await web3.eth.getAccounts();
+        }
+
+        async function addNumbers() {
+            const accounts = await getAccounts();
+            const num1 = document.getElementById("num1").value;
+            const num2 = document.getElementById("num2").value;
+            await contract.methods.add(num1, num2).send({ from: accounts[0] });
+            const result = await contract.methods.getResult().call();
+            document.getElementById("result").textContent = result;
+        }
+
+        async function subtractNumbers() {
+            const accounts = await getAccounts();
+            const num1 = document.getElementById("num1").value;
+            const num2 = document.getElementById("num2").value;
+            await contract.methods.subtract(num1, num2).send({ from: accounts[0] });
+            const result = await contract.methods.getResult().call();
+            document.getElementById("result").textContent = result;
+        }
+
+        async function multiplyNumbers() {
+            const accounts = await getAccounts();
+            const num1 = document.getElementById("num1").value;
+            const num2 = document.getElementById("num2").value;
+            await contract.methods.multiply(num1, num2).send({ from: accounts[0] });
+            const result = await contract.methods.getResult().call();
+            document.getElementById("result").textContent = result;
+        }
+
+        async function divideNumbers() {
+            const accounts = await getAccounts();
+            const num1 = document.getElementById("num1").value;
+            const num2 = document.getElementById("num2").value;
+            await contract.methods.divide(num1, num2).send({ from: accounts[0] });
+            const result = await contract.methods.getResult().call();
+            document.getElementById("result").textContent = result;
+        }
+    </script>
+</body>
+</html>
