@@ -133,5 +133,9 @@ getResult(): Retrieves the result of the last operation.
 Notes
 Ensure the smart contract is deployed to the same Ethereum network that MetaMask is connected to.
 Handle errors such as division by zero or empty input in the frontend as needed.
-License
+
+### Author
+Divya Singh
+
+### License
 This project is licensed under the MIT License.
